@@ -1,6 +1,6 @@
 #include "car.h"
 
-Car::Car(const string& id, const string& colour){
+Car::Car(string id, string colour){
 	this->colour = colour;
 	this->id = id;
 }
@@ -13,6 +13,7 @@ Car::Car(const Car& otherCar){
 Car& Car::operator=(const Car& otherCar){
 	this->colour = otherCar.colour;
 	this->id = otherCar.id;
+	return *this;
 }
 
 string Car::getColour() const {

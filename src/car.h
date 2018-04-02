@@ -5,18 +5,18 @@ using namespace std;
 
 class Car {
 	public:
-		Car(const string& id, const string& colour);			// Constructor with Parameter
+		Car(string id, string colour);		// Constructor with Parameter
 		Car(const Car& otherCar);							// Copy Constructor
 		Car& operator=(const Car& otherCar);				// Copy Assignment
 
 		/* Method */
-		string getColour() const;
-		string getId() const;
-		void setColour(string colour);
-		void setId(string id);
-		friend bool operator<(const Car& A, const Car& B);
-		friend bool operator>(const Car& A, const Car& B);
-		friend bool operator==(const Car& A, const Car& B);
+		string getColour() const;							// Get colour of a car
+		string getId() const;								// Get id of a car
+		void setColour(string colour);						// Set colour of a car
+		void setId(string id);								// Set id of a car
+		friend bool operator<(const Car& A, const Car& B);	// Implementation compare of Operator < between two cars
+		friend bool operator>(const Car& A, const Car& B);	// Implementation compare of Operator > between two cars
+		friend bool operator==(const Car& A, const Car& B); // Implementation compare of Operator == between two cars
 
 	private:
 		string colour;
