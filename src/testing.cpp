@@ -110,6 +110,7 @@ int main(int argc, char** argv){
 
 
 void test_for_class_park(){
+	fprintf(stderr, "=============================== BEGIN OF TESTING ===============================\n");
 	/* Test Constructor */
 	Park < Car > p1;
 	fprintf(stderr, "[%s]: Begin Test Constructor\n", currentDateTime().c_str());
@@ -120,20 +121,57 @@ void test_for_class_park(){
 	fprintf(stderr, "[%s]: Test Constructor Passed\n", currentDateTime().c_str());
 
 	p1.~Park();
+	/* Test Constructor with Parameter */
 	new(&p1) Park<Car>(100);
+	fprintf(stderr, "[%s]: Begin Test Constructor with Parameter\n", currentDateTime().c_str());
 	p1.addElement(Car("1","White"));
 	p1.addElement(Car("2","Blue"));
 	p1.addElement(Car("3","Black"));
+	assert(p1.getSize() == 3);
+	fprintf(stderr, "[%s]: Check p1 size == 3 passed\n", currentDateTime().c_str());
+	p1.removeElementAt(1);
+	assert(p1.getSize() == 2);
+	fprintf(stderr, "[%s]: Check p1 size == 2 passed\n", currentDateTime().c_str());
+	p1.removeElementAt(2);
+	assert(p1.getSize() == 1);
+	fprintf(stderr, "[%s]: Check p1 size == 1 passed\n", currentDateTime().c_str());
+	p1.removeElementAt(2);
+	assert(p1.getSize() == 1);
+	fprintf(stderr, "[%s]: Check p1 size keep like before passed (1 == 1)\n", currentDateTime().c_str());
+	fprintf(stderr, "[%s]: Test Constructor with parameted passed (%d == %d)\n", currentDateTime().c_str(), p1.getSize(), 1);
 
 	/* Test Copy Constructor */
 	Park < Car > p2(p1);
 	fprintf(stderr, "[%s]: Begin Test Copy Constructor\n", currentDateTime().c_str());
 	assert(p1.getSize() == p2.getSize());
 	fprintf(stderr, "[%s]: Check size of p1 and p2 passed (%d == %d)\n", currentDateTime().c_str(), p1.getSize(), p2.getSize());
+	fprintf(stderr, "[%s]: Check Copy Constructor passed (%d == %d)\n", currentDateTime().c_str(), p1.getSize(), p2.getSize());
+
+	/* Test All Method */
+	new(&p2) Park<Car>(10);
+	p2.addElement(Car("5","Pink"));
+	p2.addElement(Car("6","Yellow"));
+	p2.addElement(Car("7","Green"));
+	assert(p2.getSize() == 3);
+	fprintf(stderr, "[%s]: Check size of p2 passed (%d == %d)\n", currentDateTime().c_str(), p2.getSize(), 3);
+	assert(p2.getCarsIndexWithId("7") == 3);
+	fprintf(stderr, "[%s]: Check method get cars index with id 7 is 3\n", currentDateTime().c_str());
+	assert(p2.getCarsColourWithId("6") == "Yellow");
+	fprintf(stderr, "[%s]: Check method get cars colour with id 6 is Yellow\n", currentDateTime().c_str());
+	assert(p2.getCarsIndexWithColour("Pink").size() == 1);
+	fprintf(stderr, "[%s]: Check method all cars with colour Pink is only one passed\n", currentDateTime().c_str());
+	fprintf(stderr, "[%s]: All method already succesfully passed all test\n", currentDateTime().c_str());
 }
 
 void test_for_class_car(){
-	assert(1==1);
+	Car car("B-6587-PAU", "White");
+	fprintf(stderr, "[%s]: Begin Test Constructor with Parameter and all method\n", currentDateTime().c_str());
+	assert(car.getColour() == "White");
+	fprintf(stderr, "[%s]: Check colour passed, colour is %s == %s\n", currentDateTime().c_str(), car.getColour().c_str(), "White");
+	assert(car.getId() == "B-6587-PAU");
+	fprintf(stderr, "[%s]: Check id passed, id is %s == %s\n", currentDateTime().c_str(), car.getId().c_str(), "B-6587-PAU");
+	fprintf(stderr, "[%s]: Test Constructor with Parameter and all method\n", currentDateTime().c_str());
+	fprintf(stderr, "================================ END OF TESTING ================================\n");
 }
 
 const string currentDateTime() {
