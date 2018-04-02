@@ -69,13 +69,18 @@ string id;
 string query;
 Park< Car > parkir;
 
+void test_for_class_park(void); // Implementation test for Class Park
+void test_for_class_car(void); // Implementation test for Class Car
+const string currentDateTime(); // Get Current Time with format YYYY-MM-DD.HH:mm:ss
+
 int main(int argc, char** argv){
 	if (argc == 1){
 		fprintf(stderr, "Program exited because there isn't file input\n");
 		exit(-1);
 	}
 	ifstream in(argv[1]);
-	cerr << "done" << endl;
+	test_for_class_park();
+	test_for_class_car();
 	while (in >> query){
 		if (query == "create_parking_lot"){
 			in >> size;
@@ -101,4 +106,41 @@ int main(int argc, char** argv){
 		}
 	}
 	return 0;
+}
+
+
+void test_for_class_park(){
+	/* Test Constructor */
+	Park < Car > p1;
+	fprintf(stderr, "[%s]: Begin Test Constructor\n", currentDateTime().c_str());
+	assert(p1.isEmpty());
+	fprintf(stderr, "[%s]: Check is empty passed (0 = 0)\n", currentDateTime().c_str());
+	assert(!p1.isFull());
+	fprintf(stderr, "[%s]: Check not full passed\n", currentDateTime().c_str());
+	fprintf(stderr, "[%s]: Test Constructor Passed\n", currentDateTime().c_str());
+
+	p1.~Park();
+	new(&p1) Park<Car>(100);
+	p1.addElement(Car("1","White"));
+	p1.addElement(Car("2","Blue"));
+	p1.addElement(Car("3","Black"));
+
+	/* Test Copy Constructor */
+	Park < Car > p2(p1);
+	fprintf(stderr, "[%s]: Begin Test Copy Constructor\n", currentDateTime().c_str());
+	assert(p1.getSize() == p2.getSize());
+	fprintf(stderr, "[%s]: Check size of p1 and p2 passed (%d == %d)\n", currentDateTime().c_str(), p1.getSize(), p2.getSize());
+}
+
+void test_for_class_car(){
+	assert(1==1);
+}
+
+const string currentDateTime() {
+	time_t		now = time(0);
+	struct tm	tstruct;
+	char		buf[80];
+	tstruct = *localtime(&now);
+	strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+	return buf;
 }
