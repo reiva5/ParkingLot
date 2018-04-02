@@ -146,7 +146,7 @@ void Park<T>::removeElementAt(int index){
 
 template<class T>
 void Park<T>::printAll(){
-	printf("Slot No\tRegistration No.\tColour\n");
+	printf("Slot No.\tRegistration No.\tColour\n");
 	for (auto& it : this->data){
 		printf("%d\t%s\t%s\n", it.first, it.second.getId().c_str(), it.second.getColour().c_str());
 	}
