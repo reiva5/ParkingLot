@@ -9,13 +9,14 @@ template<class T>
 class Park {
 	public:
 		Park();								// Constructor
-		Park(const int&);					// Constructor with parameter
+		Park(int);							// Constructor with parameter
 		Park(const Park<T>&);				// Copy constructor
 		~Park();							// Destructor
 
 		/* Method */
 		bool isEmpty() const;				// To check the queue is empty or not
 		bool isFull() const;				// To check the queue already full or not
+		int getSize() const;				// Get number of car(s) right now
 		void addElement(T element);			// Add element to park space if not full
 		void removeElementAt(int index);	// Remove an element at choosen index if exist
 		void printAll();					// Print all car in the park
@@ -39,6 +40,7 @@ class Park {
 template<class T>
 Park<T>::Park() : size(DEF_SIZE){
 	this->used = (bool*) malloc((size+1) * sizeof(bool));
+	this->cars = (T*) malloc((size+1) * sizeof(T));
 	memset(this->used, false, sizeof(this->used));
 	for (int i = 1; i <= size; ++i){
 		nomorQueue.push(i);
@@ -46,7 +48,7 @@ Park<T>::Park() : size(DEF_SIZE){
 }
 
 template<class T>
-Park<T>::Park(const int& size) : size(size){
+Park<T>::Park(int size) : size(size){
 	this->used = (bool*) malloc((size+1) * sizeof(bool));
 	this->cars = (T*) malloc((size+1) * sizeof(T));
 	memset(this->used, false, sizeof(this->used));
@@ -60,8 +62,9 @@ template<class T>
 Park<T>::Park(const Park& park) : size(park.size){
 	this->nomorQueue = park.nomorQueue;
 	this->data = park.data;
-	this->used = (bool*) malloc(this->size * sizeof(bool));
-	for (int i = 1; i <= size; ++i){
+	this->used = (bool*) malloc((this->size+1) * sizeof(bool));
+	this->cars = (T*) malloc((this->size+1) * sizeof(T));
+	for (int i = 1; i <= park.getSize(); ++i){
 		this->used[i] = park.used[i];
 		this->cars[i] = park.cars[i];
 	}
@@ -84,6 +87,11 @@ bool Park<T>::isEmpty() const {
 template<class T>
 bool Park<T>::isFull() const {
 	return this->nomorQueue.size() == 0;
+}
+
+template<class T>
+int Park<T>::getSize() const {
+	return this->data.size();
 }
 
 template<class T>
