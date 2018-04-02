@@ -78,9 +78,11 @@ int main(int argc, char** argv){
 		fprintf(stderr, "Program exited because there isn't file input\n");
 		exit(-1);
 	}
+	isTest = true;
 	ifstream in(argv[1]);
 	test_for_class_park();
 	test_for_class_car();
+	isTest = false;
 	while (in >> query){
 		if (query == "create_parking_lot"){
 			in >> size;
