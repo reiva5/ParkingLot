@@ -2,7 +2,7 @@
 /* Author : Jehian Norman Saviero (@Reiva5) */
 #ifndef PARK_H
 #define PARK_H
-
+bool isTest = true;
 #define DEF_SIZE 10
 
 template<class T>
@@ -61,7 +61,7 @@ Park<T>::Park(int size) : size(size){
 		this->used[i] = 0;
 		nomorQueue.push(i);
 	}
-	printf("Created a parking lot with %d slot%c\n", size, (size > 1 ? 's' : '\0'));
+	fprintf((isTest ? stderr : stdout), "Created a parking lot with %d slot%c\n", size, (size > 1 ? 's' : '\0'));
 }
 
 template<class T>
@@ -106,7 +106,7 @@ int Park<T>::getSize() const {
 template<class T>
 void Park<T>::addElement(T element){
 	if (this->isFull()){
-		printf("Sorry, parking lot is full\n");
+		fprintf((isTest ? stderr : stdout), "Sorry, parking lot is full\n");
 	} else {
 		this->data.insert(make_pair(nomorQueue.top(), element));
 		this->used[nomorQueue.top()] = 1;
@@ -115,7 +115,7 @@ void Park<T>::addElement(T element){
 		this->dataIdIndex[element.getId()] = nomorQueue.top();
 		this->dataColourId[element.getColour()].insert(element.getId());
 		this->dataColourIndex[element.getColour()].insert(nomorQueue.top());
-		printf("Allocated slot number: %d\n", nomorQueue.top());
+		fprintf((isTest ? stderr : stdout), "Allocated slot number: %d\n", nomorQueue.top());
 		this->nomorQueue.pop();
 	}
 }
@@ -138,17 +138,17 @@ void Park<T>::removeElementAt(int index){
 		data.erase(data.lower_bound(make_pair(index, temp)));
 		this->cars[index] = T("","");
 		this->used[index] = 0;
-		printf("Slot number %d is free\n", index);
+		fprintf((isTest ? stderr : stdout), "Slot number %d is free\n", index);
 	} else {
-		printf("Park number %d is not used\n", index);
+		fprintf((isTest ? stderr : stdout), "Park number %d is not used\n", index);
 	}
 }
 
 template<class T>
 void Park<T>::printAll(){
-	printf("Slot No.\tRegistration No.\tColour\n");
+	fprintf((isTest ? stderr : stdout), "Slot No.\tRegistration No.\tColour\n");
 	for (auto& it : this->data){
-		printf("%d\t%s\t%s\n", it.first, it.second.getId().c_str(), it.second.getColour().c_str());
+		fprintf((isTest ? stderr : stdout), "%d\t%s\t%s\n", it.first, it.second.getId().c_str(), it.second.getColour().c_str());
 	}
 }
 
@@ -195,11 +195,11 @@ void Park<T>::findCarsIdWithColour(string colour){
 	if (getCarsIdWithColour(colour).size() > 0){
 		int cnt = 0;
 		for (auto& it : getCarsIdWithColour(colour)){
-			printf("%s%s", (cnt++ ? ", " : ""), it.c_str());
+			fprintf((isTest ? stderr : stdout), "%s%s", (cnt++ ? ", " : ""), it.c_str());
 		}
-		printf("\n");
+		fprintf((isTest ? stderr : stdout), "\n");
 	} else {
-		printf("Not found\n");
+		fprintf((isTest ? stderr : stdout), "Not found\n");
 	}
 }
 
@@ -208,25 +208,25 @@ void Park<T>::findCarsIndexWithColour(string colour){
 	if (getCarsIndexWithColour(colour).size() > 0){
 		int cnt = 0;
 		for (auto& it : getCarsIndexWithColour(colour)){
-			printf("%s%d", (cnt++ ? ", " : ""), it);
+			fprintf((isTest ? stderr : stdout), "%s%d", (cnt++ ? ", " : ""), it);
 		}
-		printf("\n");
+		fprintf((isTest ? stderr : stdout), "\n");
 	} else {
-		printf("Not found\n");
+		fprintf((isTest ? stderr : stdout), "Not found\n");
 	}
 }
 
 template<class T>
 void Park<T>::findCarsColourWithId(string id){
-	printf("%s\n", getCarsColourWithId(id).c_str());
+	fprintf((isTest ? stderr : stdout), "%s\n", getCarsColourWithId(id).c_str());
 }
 
 template<class T>
 void Park<T>::findCarsIndexWithId(string id){
 	if (getCarsIndexWithId(id) != -1){
-		printf("%d\n", getCarsIndexWithId(id));
+		fprintf((isTest ? stderr : stdout), "%d\n", getCarsIndexWithId(id));
 	} else {
-		printf("Not found\n");
+		fprintf((isTest ? stderr : stdout), "Not found\n");
 	}
 }
 
