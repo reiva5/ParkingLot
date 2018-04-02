@@ -41,8 +41,8 @@ template<class T>
 Park<T>::Park() : size(DEF_SIZE){
 	this->used = (bool*) malloc((size+1) * sizeof(bool));
 	this->cars = (T*) malloc((size+1) * sizeof(T));
-	memset(this->used, false, sizeof(this->used));
 	for (int i = 1; i <= size; ++i){
+		this->used[i] = 0;
 		nomorQueue.push(i);
 	}
 }
@@ -51,8 +51,8 @@ template<class T>
 Park<T>::Park(int size) : size(size){
 	this->used = (bool*) malloc((size+1) * sizeof(bool));
 	this->cars = (T*) malloc((size+1) * sizeof(T));
-	memset(this->used, false, sizeof(this->used));
 	for (int i = 1; i <= size; ++i){
+		this->used[i] = 0;
 		nomorQueue.push(i);
 	}
 	printf("Created a parking lot with %d slot%c\n", size, (size > 1 ? 's' : '\0'));
@@ -64,9 +64,11 @@ Park<T>::Park(const Park& park) : size(park.size){
 	this->data = park.data;
 	this->used = (bool*) malloc((this->size+1) * sizeof(bool));
 	this->cars = (T*) malloc((this->size+1) * sizeof(T));
-	for (int i = 1; i <= park.getSize(); ++i){
+	for (int i = 1; i <= park.size; ++i){
 		this->used[i] = park.used[i];
-		this->cars[i] = park.cars[i];
+		if (this->used[i] == 1){
+			this->cars[i] = park.cars[i];
+		}
 	}
 	this->dataColourId = park.dataColourId;
 	this->dataColourIndex = park.dataColourIndex;
