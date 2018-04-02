@@ -20,9 +20,15 @@ class Park {
 		void addElement(T element);			// Add element to park space if not full
 		void removeElementAt(int index);	// Remove an element at choosen index if exist
 		void printAll();					// Print all car in the park
-		void findCarsColourWithId(string id);	// Print a car colour with given id if exist
-		void findCarsIndexWithId(string id);	// Print a car index with given id if exist
-		void findCarsIdWithColour(string colour);	// Print all car id with given colour if exist
+
+		string getCarsColourWithId(string id);			// Get a car colour with given id if exist
+		int getCarsIndexWithId(string id);				// Get a car index with given id if exist
+		set<string> getCarsIdWithColour(string colour);	// Get all car id with given colour if exist
+		set<int> getCarsIndexWithColour(string colour);	// Get all car index with given colour if exist
+
+		void findCarsColourWithId(string id);			// Print a car colour with given id if exist
+		void findCarsIndexWithId(string id);			// Print a car index with given id if exist
+		void findCarsIdWithColour(string colour);		// Print all car id with given colour if exist
 		void findCarsIndexWithColour(string colour);	// Print all car index with given colour if exist
 
 	private:
@@ -79,6 +85,7 @@ Park<T>::Park(const Park& park) : size(park.size){
 template<class T>
 Park<T>::~Park(){
 	free(this->used);
+	free(this->cars);
 }
 
 template<class T>
@@ -146,10 +153,48 @@ void Park<T>::printAll(){
 }
 
 template<class T>
-void Park<T>::findCarsIdWithColour(string colour){
+set<string> Park<T>::getCarsIdWithColour(string colour){
 	if (this->dataColourId.find(colour) != dataColourId.end()){
+		return this->dataColourId[colour];
+	} else {
+		set<string> tmp;
+		return tmp;
+	}
+}
+
+template<class T>
+set<int> Park<T>::getCarsIndexWithColour(string colour){
+	if (this->dataColourIndex.find(colour) != dataColourIndex.end()){
+		return this->dataColourIndex[colour];
+	} else {
+		set<int> tmp;
+		return tmp;
+	}
+}
+
+template<class T>
+string Park<T>::getCarsColourWithId(string id){
+	if (this->dataIdColour.find(id) != dataIdColour.end()){
+		return (dataIdColour[id].c_str());
+	} else {
+		return "Not found";
+	}
+}
+
+template<class T>
+int Park<T>::getCarsIndexWithId(string id){
+	if (this->dataIdIndex.find(id) != dataIdIndex.end()){
+		return (dataIdIndex[id]);
+	} else {
+		return -1;
+	}
+}
+
+template<class T>
+void Park<T>::findCarsIdWithColour(string colour){
+	if (getCarsIdWithColour(colour).size() > 0){
 		int cnt = 0;
-		for (auto& it : this->dataColourId[colour]){
+		for (auto& it : getCarsIdWithColour(colour)){
 			printf("%s%s", (cnt++ ? ", " : ""), it.c_str());
 		}
 		printf("\n");
@@ -160,9 +205,9 @@ void Park<T>::findCarsIdWithColour(string colour){
 
 template<class T>
 void Park<T>::findCarsIndexWithColour(string colour){
-	if (this->dataColourIndex.find(colour) != dataColourIndex.end()){
+	if (getCarsIndexWithColour(colour).size() > 0){
 		int cnt = 0;
-		for (auto& it : this->dataColourIndex[colour]){
+		for (auto& it : getCarsIndexWithColour(colour)){
 			printf("%s%d", (cnt++ ? ", " : ""), it);
 		}
 		printf("\n");
@@ -173,19 +218,16 @@ void Park<T>::findCarsIndexWithColour(string colour){
 
 template<class T>
 void Park<T>::findCarsColourWithId(string id){
-	if (this->dataIdColour.find(id) != dataIdColour.end()){
-		printf("%s\n", dataIdColour[id].c_str());
+	printf("%s\n", getCarsColourWithId(id).c_str());
+}
+
+template<class T>
+void Park<T>::findCarsIndexWithId(string id){
+	if (getCarsIndexWithId(id) != -1){
+		printf("%d\n", getCarsIndexWithId(id));
 	} else {
 		printf("Not found\n");
 	}
 }
 
-template<class T>
-void Park<T>::findCarsIndexWithId(string id){
-	if (this->dataIdIndex.find(id) != dataIdIndex.end()){
-		printf("%d\n", dataIdIndex[id]);
-	} else {
-		printf("Not found\n");
-	}
-}
 #endif
