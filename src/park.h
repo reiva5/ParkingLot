@@ -2,7 +2,7 @@
 /* Author : Jehian Norman Saviero (@Reiva5) */
 #ifndef PARK_H
 #define PARK_H
-bool isTest = true;
+bool isTest = false;
 #define DEF_SIZE 10
 
 template<class T>
